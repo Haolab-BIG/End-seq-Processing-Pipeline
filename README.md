@@ -98,7 +98,8 @@ plotFingerprint -b ${bowtieoutdir}/wm_13AID_AUX_shRAD21_S30_L001_removeDup.bam $
 
 ```
 ## Peak calling with QC
-The plotFingerprint curve showed a sharp increase toward the upper right corner, indicating strong signal enrichment in a small subset of genomic bins, which is characteristic of narrow peaks
+The plotFingerprint curve showed a sharp increase toward the upper right corner, indicating strong signal enrichment in a small subset of genomic bins, which is characteristic of narrow peaks. 
+END-seq data typically displays sharp, localized enrichment patterns consistent with narrow peaks; thus, it is standard practice to use MACS3 in narrow peak mode, and plotFingerprint can help confirm signal enrichment but is not required to decide peak type.
 ```
 echo "peak calling"
 bwoutdir=/4.bw
@@ -133,46 +134,6 @@ for namep in 13AID_AUX_shCTRL_S29 13AID_AUX_shRAD21_S30;do
   H3K27acfile=XXX ### path to Nacent RNA-seq bw
   computeMatrix scale-regions -p 20 -S ${bwoutdir}/${H3K27acfile} \
                               -R ${pcoutdir}/${namep}_peaks.narrowPeak -a 5000 -b 5000 --regionBodyLength 0 \
-                              --missingDataAsZero -o ${pcoutdir}/${namep}.H3K27ac.5kb.gz
-  plotHeatmap -m ${pcoutdir}/${namep}.H3K27ac.5kb.gz -out ${pcoutdir}/${namep}.H3K27ac.5kb.pdf --colorMap viridis --missingDataColor white --heatmapHeight 12 --heatmapWidth 4
-done
-```
-
-A more gradual upward curve suggests broader signal distribution across the genome, supporting the use of broad peak calling parameters
-```
-echo "peak calling"
-bwoutdir=/4.bw
-bowtieoutdir=/3.bowtie
-pcoutdir=/5.macs3
-for namep in 13AID_AUX_shCTRL_S29 13AID_AUX_shRAD21_S30;do
-  macs3 callpeak -t ${bowtieoutdir}/wm_${namep}_L001_removeDup.bam -f BAM -g hs --outdir ${pcoutdir} -n ${namep} --broad --nomodel --nolambda --llocal 100000 --keep-dup all -q 0.01 2> >(tee -a ${pcoutdir}/${namep}.macs2.stats >&2) 1> ${pcoutdir}/${namep}.macs2.stdout
-  ## peak_enrichment.pdf
-  computeMatrix scale-regions -p 20 -S ${bwoutdir}/wm_${namep}_L001_removeDup_rmChrM.bw \
-                              -R ${pcoutdir}/${namep}_peaks.broadPeak -a 5000 -b 5000 --regionBodyLength 1000 \
-                              --missingDataAsZero -o ${pcoutdir}/${namep}.peak2.5kb.gz
-  plotHeatmap -m ${pcoutdir}/${namep}.peak2.5kb.gz -out ${pcoutdir}/${namep}.peak2.5kb.pdf --colorMap viridis --missingDataColor white --heatmapHeight 12 --heatmapWidth 4
-  ## CTCF_enrichment.pdf
-  CTCFfile=XXX ### path to CTCF bw
-  computeMatrix scale-regions -p 20 -S ${bwoutdir}/${CTCFfile} \
-                              -R ${pcoutdir}/${namep}_peaks.broadPeak -a 5000 -b 5000 --regionBodyLength 1000 \
-                              --missingDataAsZero -o ${pcoutdir}/${namep}.CTCF.5kb.gz
-  plotHeatmap -m ${pcoutdir}/${namep}.CTCF.5kb.gz -out ${pcoutdir}/${namep}.CTCF.5kb.pdf --colorMap viridis --missingDataColor white --heatmapHeight 12 --heatmapWidth 4
-  ## Top2_enrichment.pdf
-  Top2file=XXX ### path to Top2 bw
-  computeMatrix scale-regions -p 20 -S ${bwoutdir}/${Top2file} \
-                              -R ${pcoutdir}/${namep}_peaks.broadPeak -a 5000 -b 5000 --regionBodyLength 1000 \
-                              --missingDataAsZero -o ${pcoutdir}/${namep}.Top2.5kb.gz
-  plotHeatmap -m ${pcoutdir}/${namep}.Top2.5kb.gz -out ${pcoutdir}/${namep}.Top2.5kb.pdf --colorMap viridis --missingDataColor white --heatmapHeight 12 --heatmapWidth 4
-  ## TSS_enrichment.pdf
-  TSSfile=XXX ### path to Nacent RNA-seq bw
-  computeMatrix scale-regions -p 20 -S ${bwoutdir}/${TSSfile} \
-                              -R ${pcoutdir}/${namep}_peaks.broadPeak -a 5000 -b 5000 --regionBodyLength 1000 \
-                              --missingDataAsZero -o ${pcoutdir}/${namep}.TSS.5kb.gz
-  plotHeatmap -m ${pcoutdir}/${namep}.TSS.5kb.gz -out ${pcoutdir}/${namep}.TSS.5kb.pdf --colorMap viridis --missingDataColor white --heatmapHeight 12 --heatmapWidth 4
-  ## H3K27ac_enrichment.pdf
-  H3K27acfile=XXX ### path to Nacent RNA-seq bw
-  computeMatrix scale-regions -p 20 -S ${bwoutdir}/${H3K27acfile} \
-                              -R ${pcoutdir}/${namep}_peaks.broadPeak -a 5000 -b 5000 --regionBodyLength 1000 \
                               --missingDataAsZero -o ${pcoutdir}/${namep}.H3K27ac.5kb.gz
   plotHeatmap -m ${pcoutdir}/${namep}.H3K27ac.5kb.gz -out ${pcoutdir}/${namep}.H3K27ac.5kb.pdf --colorMap viridis --missingDataColor white --heatmapHeight 12 --heatmapWidth 4
 done
