@@ -99,6 +99,7 @@ plotFingerprint -b ${bowtieoutdir}/wm_13AID_AUX_shRAD21_S30_L001_removeDup.bam $
 ```
 ## Peak calling with QC
 The plotFingerprint curve showed a sharp increase toward the upper right corner, indicating strong signal enrichment in a small subset of genomic bins, which is characteristic of narrow peaks. 
+
 END-seq data typically displays sharp, localized enrichment patterns consistent with narrow peaks; thus, it is standard practice to use MACS3 in narrow peak mode, and plotFingerprint can help confirm signal enrichment but is not required to decide peak type.
 ```
 echo "peak calling"
