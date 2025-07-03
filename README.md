@@ -3,7 +3,7 @@ This is the pipeline of downstream analysis for End-seq data, including quality 
 # Part I Introduction
 ## i. Workflow
 Here stands an throughout workflow of End-seq data analysis.
-![endseq drawio](https://github.com/user-attachments/assets/378d1641-32be-4de7-80bb-8ef17509f3f3)
+![图片](https://github.com/user-attachments/assets/02d8de2f-e907-4273-8fe5-68f4d5783ab5)
 
 As illustrated in the figure,
 (i) Solid-line boxes represent the files we input/output;
@@ -83,7 +83,7 @@ do
         bamCoverage -b ${bowtieoutdir}/${fileName}_removeDup.bam -o ${bowtieoutdir}/${fileName}_removeDup_rmChrM.bw  --ignoreForNormalization chrM -p 10 --binSize 1 --ignoreDuplicates --normalizeUsing CPM
 done
 ```
-## check the End-seq quality
+## Check the End-seq quality
 ```
 bwoutdir=/4.bw
 FigureDir=/4.bw
@@ -97,7 +97,7 @@ bowtieoutdir=/3.bowtie
 plotFingerprint -b ${bowtieoutdir}/wm_13AID_AUX_shRAD21_S30_L001_removeDup.bam ${bowtieoutdir}/wm_13AID_AUX_shCTRL_S29_L001_removeDup.bam --labels AUD_shCTRL AUD_shRAD21 --skipZeros --plotFile ${FigureDir}/fingerprints.png
 
 ```
-## Peak calling
+## Peak calling with QC
 The plotFingerprint curve showed a sharp increase toward the upper right corner, indicating strong signal enrichment in a small subset of genomic bins, which is characteristic of narrow peaks
 ```
 echo "peak calling"
