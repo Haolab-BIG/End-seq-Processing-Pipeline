@@ -52,7 +52,7 @@ macs3
 # Part II Codes
 ## Preprocessing
 In this section, you will convert the raw FASTQ files into bam files, which can be used for subsequent analysis.
-```
+```bash
 #The location of rawdata
 datadir=/1.rawdata
 #the QC of raw data
@@ -84,7 +84,7 @@ do
 done
 ```
 ## Check the End-seq quality
-```
+```bash
 bwoutdir=/4.bw
 FigureDir=/4.bw
 echo "Check the correlation among replicates in HCT116 cells"
@@ -95,13 +95,12 @@ plotCorrelation  -in ${FigureDir}/BW_compare_HCT116.npz --corMethod pearson --sk
 echo "check the End-seq quality"
 bowtieoutdir=/3.bowtie
 plotFingerprint -b ${bowtieoutdir}/wm_13AID_AUX_shRAD21_S30_L001_removeDup.bam ${bowtieoutdir}/wm_13AID_AUX_shCTRL_S29_L001_removeDup.bam --labels AUD_shCTRL AUD_shRAD21 --skipZeros --plotFile ${FigureDir}/fingerprints.png
-
 ```
 ## Peak calling with QC
 The plotFingerprint curve showed a sharp increase toward the upper right corner, indicating strong signal enrichment in a small subset of genomic bins, which is characteristic of narrow peaks. 
 
 END-seq data typically displays sharp, localized enrichment patterns consistent with narrow peaks; thus, it is standard practice to use MACS3 in narrow peak mode, and plotFingerprint can help confirm signal enrichment but is not required to decide peak type.
-```
+```bash
 echo "peak calling"
 bwoutdir=/4.bw
 bowtieoutdir=/3.bowtie
