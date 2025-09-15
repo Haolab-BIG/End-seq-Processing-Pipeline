@@ -257,7 +257,7 @@ This pipeline provides a fully containerized Singularity environment that bundle
         - **Content**: PDF file showing a heatmap of pairwise correlations between samples based on BigWig signal profiles. It typically includes correlation values (Pearson) and visually represents sample similarity across the genome.
         - **Application**: Used to assess consistency and reproducibility between samples, identify outliers, and evaluate experimental quality in End-seq.
 
-        <img width="1630" height="578" alt="图片" src="https://github.com/user-attachments/assets/90cefb4f-25ea-4070-bf40-d39c85baacb4" />
+          <img width="1630" height="578" alt="图片" src="https://github.com/user-attachments/assets/90cefb4f-25ea-4070-bf40-d39c85baacb4" />
 
       - **`*fingerprints.pdf`**
 
@@ -338,7 +338,7 @@ This pipeline provides a fully containerized Singularity environment that bundle
         - **Content**: Heatmap visualizing read enrichment over peaks. Generated using `plotHeatmap` from deepTools with a `*_peaks.broadPeak` and `*bw` input. The heatmap shows signal intensity (color-coded, viridis colormap) across all peaks, with missing data represented in white. The height and width of the heatmap are set for clear visualization of peak patterns.
         - **Application**: Used to assess global enrichment patterns across peaks. Peaks with strong enrichment appear as high-intensity bands or curves; if the signal is higher than control samples, it indicates that peak calling was successful and represents true biological enrichment.
        
-          <img width="483" height="770" alt="图片" src="https://github.com/user-attachments/assets/2300e808-9abe-497b-965d-5809d5f8139c" />
+          <img width="495" height="746" alt="图片" src="https://github.com/user-attachments/assets/3859267d-c74a-4d3e-be3c-9c6c4f8a61e0" />
 
 # Part V Video Tutorials
 
