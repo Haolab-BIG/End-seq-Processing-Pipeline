@@ -257,7 +257,7 @@ This pipeline provides a fully containerized Singularity environment that bundle
         - **Content**: PDF file showing a heatmap of pairwise correlations between samples based on BigWig signal profiles. It typically includes correlation values (Pearson) and visually represents sample similarity across the genome.
         - **Application**: Used to assess consistency and reproducibility between samples, identify outliers, and evaluate experimental quality in End-seq.
 
-          <img width="1630" height="578" alt="图片" src="https://github.com/user-attachments/assets/90cefb4f-25ea-4070-bf40-d39c85baacb4" />
+          <img width="860" height="766" alt="图片" src="https://github.com/user-attachments/assets/fa058e75-5d40-46df-a1fa-a2e6de583a21" />
 
       - **`*fingerprints.pdf`**
 
