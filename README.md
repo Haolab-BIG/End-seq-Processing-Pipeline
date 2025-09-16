@@ -187,6 +187,8 @@ This pipeline provides a fully containerized Singularity environment that bundle
 
         - **Content**: Contains Bowtie alignment summary statistics, including the total number of reads processed, reads aligned, reads discarded, and uniquely mapped reads. It provides an overview of mapping quality and efficiency for each FASTQ file.
         - **Application**: Used to assess alignment quality and sequencing library performance. These statistics help in troubleshooting mapping issues, evaluating experiment success, and can be parsed by downstream tools like MultiQC for visualization and comparison across samples.
+          
+          <img width="490" height="105" alt="图片" src="https://github.com/user-attachments/assets/ad65b4e6-d210-4af1-8dbe-174f49c3a75e" />
 
       - **`*.DeDup.bam`**
 
