@@ -10,12 +10,19 @@ END-seq, an ultrasensitive next-generation sequencing method that enables genome
 The process of END-seq[1]: 
 
 (1)	Live cells are embedded in low-melting agarose following which agarose plugs are treated with proteinase K and RNase A to digest proteins and RNA; 
+
 (2)	Blunt the single-strand DNA overhangs at DSBs with exonucleases (exonuclease VII and exonuclease T); 
+
 (3)	Insert a biotinylated hairpin adapter containing a 3’ T overhang and the Illumina’s p5 adapter sequence (“END-seq adapter 1”) to A-tailing of the 3’ ends; 
+
 (4)	Melt agarose plugs, extract and shear DNA by sonication; 
+
 (5)	Capture the sequence with biotin and END-seq adapter 1 with Streptomycin Beads; 
+
 (6)	The new ends created by sonication are end repaired and A-tailed, allowing ligation of a second hairpin adaptor containing Illumina’s p7 sequence (named “END-seq adapter 2”); 
+
 (7)	Adapter hairpins are digested away with the USER enzyme (a combination of an uracil DNA-glycosylase and endonuclease VIII) which digests DNA to create single-nucleotide gaps at uracil residues; 
+
 (8)	PCR amplification using Illumina TruSeq primers with barcodes (denoted in yellow and green) result in a ready-to-use library in which the first base sequenced (read number 1) corresponds to the first base of the blunted DSB. 
 
 ## ii. Workflow
