@@ -8,6 +8,7 @@ END-seq, an ultrasensitive next-generation sequencing method that enables genome
 <img width="865" height="338" alt="图片" src="https://github.com/user-attachments/assets/a6d30ed3-3bb9-4468-b55c-9be63a8bcb1d" />
 
 The process of END-seq[1]: 
+
 (1)	Live cells are embedded in low-melting agarose following which agarose plugs are treated with proteinase K and RNase A to digest proteins and RNA; 
 (2)	Blunt the single-strand DNA overhangs at DSBs with exonucleases (exonuclease VII and exonuclease T); 
 (3)	Insert a biotinylated hairpin adapter containing a 3’ T overhang and the Illumina’s p5 adapter sequence (“END-seq adapter 1”) to A-tailing of the 3’ ends; 
