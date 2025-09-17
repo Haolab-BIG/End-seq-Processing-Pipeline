@@ -346,7 +346,9 @@ This pipeline provides a fully containerized Singularity environment that bundle
 
    Watch this video tutorial to see a complete walkthrough of running the pipeline:
    
-   https://github.com/user-attachments/assets/26c05771-d256-418a-a576-773f58fef51d
+   https://github.com/user-attachments/assets/30db9693-b61c-439c-bd5a-854ae7479763
+
+
 
 
 
