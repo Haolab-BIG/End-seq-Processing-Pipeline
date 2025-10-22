@@ -181,7 +181,7 @@ This pipeline provides a fully containerized Singularity environment that bundle
         g: "hs"
         ```
 
-      * **Step 2: Edit `config.yaml`**
+      * **Step 2: run snakemake**
 
         ```bash
         snakemake -s pipeline.smk --cores 20 --use-singularity --singularity-args "--bind /project_directory:/project_directory"
