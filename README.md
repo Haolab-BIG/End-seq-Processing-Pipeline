@@ -1,9 +1,8 @@
 # End-seq-Processing-Pipeline
 This pipeline provides a fully containerized Singularity environment that bundles all required tools and dependencies. With a single command, the entire End-seq workflow—from raw FASTQ input through trimming, quality control, genome alignment, peak calling, fingerprinting, and PCA—can be executed reproducibly on any compatible system.
 
-# Part I Introduction
+# Part I Workflow
 
-## Workflow
 Here stands an throughout workflow of End-seq data analysis.
 <img width="2010" height="673" alt="End-seq" src="https://github.com/user-attachments/assets/d61be29f-fbf7-4f61-8e4c-1dd5d0bf8810" />
 
