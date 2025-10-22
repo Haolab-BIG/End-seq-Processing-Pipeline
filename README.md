@@ -158,20 +158,25 @@ Here stands an throughout workflow of End-seq data analysis.
       * **Step 2: run snakemake**
 
         ```bash
-        snakemake -s pipeline.smk --cores 20 --use-singularity --singularity-args "--bind /project_directory:/project_directory"
+        snakemake -s pipeline.smk --use-singularity --singularity-args "--bind /project_directory:/project_directory"
         ```
 
    * **Command Parameters**
 
+      **edit `config.yaml`**
       - `treatment`:  Path to the treatment FASTQ file. For paired-end data, it is recommended to provide the path to the R1 file, gzipped, with User-defined prefix for all treatment output files (required)
-      - `control`:    Path to the input control fastq. For paired-end data, it is recommended to provide the path to the R1 file, gzipped, with User-defined prefix for all treatment output files (optinal)
+      - `control`:    Path to the input control fastq. For paired-end data, it is recommended to provide the path to the R1 file, gzipped, with User-defined prefix for all treatment output files, leave empty if not used (optinal)
       - `outputdir`:    Path to the directory where the output will be stored (required)
       - `referencedir`: Path to the directory where bowtie reference build with prefix (required)
       - `adapterFa`:    Path to the adapter fasta (required)
       - `sif`:          Path to the singularity environment file (required)
-      - `threads`:      Number of threads to use (optional, default: 8)
-      - `binSize`:      Number of binsize to use (optional, default: 10)
-      - `g`:            specise from macs3: hs (human); mm (mouse); ce (C. elegans); dm (Drosophila melanogaster); ...
+      - `threads`:      Number of threads to use (required)
+      - `binSize`:      Number of binsize to use (required)
+      - `g`:            specise from macs3: hs (human); mm (mouse); ce (C. elegans); dm (Drosophila melanogaster); ... (required)
+      **run snakemake**
+      - `--use-singularity`: Enables execution of rules within a Singularity container to ensure a fully reproducible environment.
+      - `--singularity-args`: Allows passing additional arguments to the Singularity runtime (e.g., `--bind`, `--nv`, or custom options).
+      - `--bind`:       Specifies the directories to be mounted within the Singularity container. Include all required paths such as raw data, scripts, container images, and references. The format is `/project_directory:/project_directory`. Multiple directories can be mounted by separating them with commas, for example: `/path1:/path1,/path2:/path2` (required)
 
 # Part IV Output
 
