@@ -173,6 +173,7 @@ Here stands an throughout workflow of End-seq data analysis.
       - `threads`:      Number of threads to use (required)
       - `binSize`:      Number of binsize to use (required)
       - `g`:            specise from macs3: hs (human); mm (mouse); ce (C. elegans); dm (Drosophila melanogaster); ... (required)
+
       **run snakemake**
       - `--use-singularity`: Enables execution of rules within a Singularity container to ensure a fully reproducible environment.
       - `--singularity-args`: Allows passing additional arguments to the Singularity runtime (e.g., `--bind`, `--nv`, or custom options).
