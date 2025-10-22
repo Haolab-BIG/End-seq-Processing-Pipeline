@@ -1,36 +1,11 @@
 # End-seq-Processing-Pipeline
-The End-seq analysis pipeline processes raw FASTQ data through a series of steps including adapter trimming, quality control, genome mapping, peak calling, fingerprint profiling, and principal component analysis.
+This pipeline provides a fully containerized Singularity environment that bundles all required tools and dependencies. With a single command, the entire End-seq workflow—from raw FASTQ input through trimming, quality control, genome alignment, peak calling, fingerprinting, and PCA—can be executed reproducibly on any compatible system.
 
 # Part I Introduction
-## i. What is End-seq?
-END-seq, an ultrasensitive next-generation sequencing method that enables genome-wide, quantitative mapping of DNA double-strand breaks (DSBs) at nucleotide resolution in an unbiased fashion. This technique relies on the direct ligation of sequencing adapters to DSB ends, thereby simultaneously capturing details of DNA end resection—a key regulatory step in the choice of DNA repair pathways.
 
-<img width="865" height="338" alt="图片" src="https://github.com/user-attachments/assets/a6d30ed3-3bb9-4468-b55c-9be63a8bcb1d" />
-
-The process of END-seq[1]: 
-
-(1)	Live cells are embedded in low-melting agarose following which agarose plugs are treated with proteinase K and RNase A to digest proteins and RNA; 
-
-(2)	Blunt the single-strand DNA overhangs at DSBs with exonucleases (exonuclease VII and exonuclease T); 
-
-(3)	Insert a biotinylated hairpin adapter containing a 3’ T overhang and the Illumina’s p5 adapter sequence (“END-seq adapter 1”) to A-tailing of the 3’ ends; 
-
-(4)	Melt agarose plugs, extract and shear DNA by sonication; 
-
-(5)	Capture the sequence with biotin and END-seq adapter 1 with Streptomycin Beads; 
-
-(6)	The new ends created by sonication are end repaired and A-tailed, allowing ligation of a second hairpin adaptor containing Illumina’s p7 sequence (named “END-seq adapter 2”); 
-
-(7)	Adapter hairpins are digested away with the USER enzyme (a combination of an uracil DNA-glycosylase and endonuclease VIII) which digests DNA to create single-nucleotide gaps at uracil residues; 
-
-(8)	PCR amplification using Illumina TruSeq primers with barcodes (denoted in yellow and green) result in a ready-to-use library in which the first base sequenced (read number 1) corresponds to the first base of the blunted DSB. 
-
-## ii. Workflow
+## Workflow
 Here stands an throughout workflow of End-seq data analysis.
 <img width="2010" height="673" alt="End-seq" src="https://github.com/user-attachments/assets/d61be29f-fbf7-4f61-8e4c-1dd5d0bf8810" />
-
-## iii. Features
-This pipeline provides a fully containerized Singularity environment that bundles all required tools and dependencies. With a single command, the entire End-seq workflow—from raw FASTQ input through trimming, quality control, genome alignment, peak calling, fingerprinting, and PCA—can be executed reproducibly on any compatible system.
 
 # Part II Requirements
 1.  **Recommended Specs**:
