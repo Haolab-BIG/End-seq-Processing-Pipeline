@@ -33,7 +33,7 @@ Here stands an throughout workflow of End-seq data analysis.
 This pipeline provides a fully containerized Singularity environment that bundles all required tools and dependencies. With a single command, the entire End-seq workflow—from raw FASTQ input through trimming, quality control, genome alignment, peak calling, fingerprinting, and PCA—can be executed reproducibly on any compatible system.
 
 # Part II Requirements
-1.  **Recommended System Configuration**:
+1.  **Recommended Specs**:
 
       * 8-core CPU
       * 24 GB RAM
@@ -105,11 +105,11 @@ This pipeline provides a fully containerized Singularity environment that bundle
         singularity -h
         ```
 
-3.  **Download Files**:
+3.  **snakemake**: Snakemake must be installed on your system and requires a Python 3 distribution.
 
-      * `run_Endseq.sh`
-      * `End-seq.sif` (The Singularity container)
-      * `illumina_adapter.fa`
+      ```bash
+      pip install snakemake
+      ```
 
 4.  **Reference Data**: A directory containing bowtie index (Below are the detailed steps for the human hg38 genome. For other reference genomes, please download the corresponding files and replace them as needed).
       ```bash
@@ -124,52 +124,80 @@ This pipeline provides a fully containerized Singularity environment that bundle
       awk '/^>/ {p=0} /^>chr[0-9XYM]/ {p=1} p' GRCh38.primary_assembly.genome.fa > GRCh38.primary_assembly.genome.chr.fa
       # Build index
       mkdir hg38_chr_bowtie1_index
-      singularity exec --cleanenv End-seq.sif bowtie-build --threads 8 -f GRCh38.primary_assembly.genome.chr.fa ./hg38_chr_bowtie1_index/hg38_chr
+      singularity exec --cleanenv EndSeq.sif bowtie-build --threads 8 -f GRCh38.primary_assembly.genome.chr.fa ./hg38_chr_bowtie1_index/hg38_chr
       # Remove unnecessary files
       rm GRCh38.primary_assembly.genome.chr.fa
       rm GRCh38.primary_assembly.genome.fa
       ```
-6.   **Required File Structure**
+
+5.  **Required Files**:
+
       ```bash
-      basement_data/
-      ├── End-seq.sif
-      ├── hg38_chr_bowtie1_index/
-            ├── hg38_chr.1.ebwt
-            ├── hg38_chr.2.ebwt
-            ├── hg38_chr.3.ebwt
-            ├── hg38_chr.4.ebwt
-            ├── hg38_chr.rev.1.ebwt
-            └── hg38_chr.rev.2.ebwt
-      ├── illumina_adapter.fa
-      └── run_Endseq.sh
+      project_directory/
+      ├── Scripts
+            ├── config.yaml
+            └── EndSeq.smk
+      ├── Containers/
+            └── EndSeq.sif
+      ├── References/
+            ├── illumina_adapter.fa
+            └── hg38_chr_bowtie1_index
+                  ├── hg38_chr.1.ebwt
+                  ├── hg38_chr.2.ebwt
+                  ├── hg38_chr.3.ebwt
+                  ├── hg38_chr.4.ebwt
+                  ├── hg38_chr.rev.1.ebwt
+                  └── hg38_chr.rev.2.ebwt
       ```
+      
+      - **EndSeq.smk** — The main Snakemake workflow script.  
+      - **config.yaml** — Configuration file containing paths, parameters, and sample information.  
+        ⚠️ Must be located in the same directory as `EndSeq.smk`.
+      - **EndSeq.sif** — Singularity container image with all required software and dependencies pre-installed.
+      - **illumina_adapter.fa** — FASTA file containing Illumina adapter sequences; replace with your own if needed. 
+      - **hg38_chr_bowtie1_index** — Reference genome index for Bowtie; replace with your preferred reference.
 
 # Part III Running
 
    * **Example code**
 
-      ```bash
-      bash ./basement_data/run_Endseq.sh --treatmentFq ./rawdata/Treatment.5w.fastq.gz \
-                           --controlFq ./rawdata/Control.5w.fastq.gz \
-                           --outputdir ./result \
-                           --referencedir ./basement_data/hg38_chr_bowtie1_index/hg38_chr \
-                           --adapterFa ./basement_data/illumina_adapter.fa \
-                           --sif ./basement_data/End-seq.sif \
-                           --threads 8 \
-                           --binSize 10 \
-                           --g hs
-      ```
+      * **Step 1: Edit `config.yaml`**
+
+        ```bash
+        treatment:
+          fq: "/project_directory/rawdata/Treatment.5w.fastq.gz"
+          prefix: "Treatment"
+
+        control:
+          fq: "/project_directory/rawdata/Control.5w.fastq.gz"
+          prefix: "Control"
+
+        outputdir: "/project_directory/result"
+        referencedir: "/project_directory/References/hg38_chr_bowtie1_index/hg38_chr"
+        adapterFa: "/project_directory/References/illumina_adapter.fa"
+        sif: "/project_directory/Containers/EndSeq.sif"
+        threads: 8
+        binSize: 10
+        g: "hs"
+        ```
+
+      * **Step 2: Edit `config.yaml`**
+
+        ```bash
+        snakemake -s pipeline.smk --cores 20 --use-singularity --singularity-args "--bind /project_directory:/project_directory"
+        ```
+
    * **Command Parameters**
 
-      - `--treatmentFq`:  Path to the treatment FASTQ file. For paired-end data, it is recommended to provide the path to the R1 file (required)
-      - `--controlFq`:    Path to the input control fastq. For paired-end data, it is recommended to provide the path to the R1 file (optinal)
-      - `--outputdir`:    Path to the directory where the output will be stored (required)
-      - `--referencedir`: Path to the directory where bowtie reference build with prefix (required)
-      - `--adapterFa`:    Path to the adapter fasta (required)
-      - `--sif`:          Path to the singularity environment file (required)
-      - `--threads`:      Number of threads to use (optional, default: 8)
-      - `--binSize`:      Number of binsize to use (optional, default: 10)
-      - `--g`:            specise from macs3: hs (human); mm (mouse); ce (C. elegans); dm (Drosophila melanogaster); ...
+      - `treatment`:  Path to the treatment FASTQ file. For paired-end data, it is recommended to provide the path to the R1 file, gzipped, with User-defined prefix for all treatment output files (required)
+      - `control`:    Path to the input control fastq. For paired-end data, it is recommended to provide the path to the R1 file, gzipped, with User-defined prefix for all treatment output files (optinal)
+      - `outputdir`:    Path to the directory where the output will be stored (required)
+      - `referencedir`: Path to the directory where bowtie reference build with prefix (required)
+      - `adapterFa`:    Path to the adapter fasta (required)
+      - `sif`:          Path to the singularity environment file (required)
+      - `threads`:      Number of threads to use (optional, default: 8)
+      - `binSize`:      Number of binsize to use (optional, default: 10)
+      - `g`:            specise from macs3: hs (human); mm (mouse); ce (C. elegans); dm (Drosophila melanogaster); ...
 
 # Part IV Output
 
@@ -177,33 +205,40 @@ This pipeline provides a fully containerized Singularity environment that bundle
       ```bash
       result/
       ├── bam
-            ├── Control.5w.bowtie.stats
-            ├── Control.5w.DeDup.bam
-            ├── Control.5w.DeDup.bam.bai
-            ├── Control.5w.flagstat.txt
-            ├── Control.5w.markdup.log
-            ├── Treatment.5w.bowtie.stats
-            ├── Treatment.5w.DeDup.bam
-            ├── Treatment.5w.DeDup.bam.bai
-            ├── Treatment.5w.flagstat.txt
-            └── Treatment.5w.markdup.log
+            ├── Control.bowtie.stats
+            ├── Control.DeDup.bam
+            ├── Control.DeDup.bam.bai
+            ├── Control.flagstat.txt
+            ├── Control.markdup.log
+            ├── Treatment.bowtie.stats
+            ├── Treatment.DeDup.bam
+            ├── Treatment.DeDup.bam.bai
+            ├── Treatment.flagstat.txt
+            └── Treatment.markdup.log
       ├── bw/
-            ├── Control.5w.DeDup.bw
-            └── Treatment.5w.DeDup.bw
+            ├── Control.DeDup.bw
+            └── Treatment.DeDup.bw
       ├── figure/
-            ├── BW_compare.pdf
+            ├── BW_compare_PCA.pdf
             ├── BW_compare_cor.pdf
             ├── fingerprints.pdf
-            └── Treatment.5w.peak.pdf
+            └── Treatment.peak.pdf
       ├── multiqc/
             ├── multiqc_data/
             └── multiqc_report.html
       └── peak/
-            ├── Treatment.5w.macs3.stats
-            ├── Treatment.5w_peaks.broadPeak
-            ├── Treatment.5w_peaks.gappedPeak
-            └── Treatment.5w_peaks.xls
+            ├── Treatment.macs3.stats
+            ├── Treatment.macs3.stdout
+            ├── Treatment_peaks.broadPeak
+            ├── Treatment_peaks.gappedPeak
+            └── Treatment_peaks.xls
+      ├── rawdata.qc/
+            ├── Control.5w_fastqc.html
+            ├── Control.5w_fastqc.zip
+            ├── Treatment.5w_fastqc.html
+            └── Treatment.5w_fastqc.zip
       ```
+      
    * **Output Interpretation**
 
       - **`*.bowtie.stats`**
@@ -271,7 +306,7 @@ This pipeline provides a fully containerized Singularity environment that bundle
 	  
           <img width="1630" height="578" alt="图片" src="https://github.com/user-attachments/assets/fb185ccb-58c3-4062-8a68-e9970df1046b" />
 
-      - **`*BW_compare.pdf`**
+      - **`*BW_compare_PCA.pdf`**
 
         - **Content**: PDF file showing the principal component analysis (PCA) of BigWig signal profiles across multiple samples. It visualizes sample-to-sample similarity and variance based on genome-wide coverage or signal intensities.
         - **Application**: Used to assess the overall relationship between samples, detect outliers, and evaluate batch effects or experimental reproducibility in End-seq or ChIP-seq datasets.
