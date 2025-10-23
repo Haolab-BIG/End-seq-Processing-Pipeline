@@ -1,0 +1,16 @@
+
+treatment:
+  fq: "/mnt1/2.NAS2024/wutan/9.pipe/1.end-seq/rawdata/Treatment.5w.fastq.gz"  # Absolute path to raw treatment fastq (can be gzipped)
+  prefix: "treat"  # User-defined prefix for all treatment output files (e.g., treatment_prefix.fq.gz)
+
+control:
+  fq: "/mnt1/2.NAS2024/wutan/9.pipe/1.end-seq/rawdata/Control.5w.fastq.gz"  # Optional (absolute path), leave empty if not used
+  prefix: "control"  # Required if control.fq is provided (defines control output filenames)
+
+outputdir: "/mnt1/2.NAS2024/wutan/9.pipe/1.end-seq/result.snakemake"  # Absolute path to main output directory
+referencedir: "/mnt1/2.NAS2024/wutan/9.pipe/1.end-seq/basement_data/hg38_chr_bowtie1_index/hg38_chr"  # Absolute path to bowtie reference index
+adapterFa: "/mnt1/2.NAS2024/wutan/9.pipe/1.end-seq/basement_data/illumina_adapter.fa"  # Absolute path to adapter sequences
+sif: "/mnt1/2.NAS2024/wutan/9.pipe/1.end-seq/basement_data/EndSeq.sif"  # Absolute path to singularity image
+threads: 8  # Number of threads to use
+binSize: 10  # Bin size for BigWig generation
+g: "hs"  # Genome size parameter for MACS3 (e.g., "hs" for human)
