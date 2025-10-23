@@ -158,7 +158,7 @@ Here stands an throughout workflow of End-seq data analysis.
       * **Step 2: run snakemake**
 
         ```bash
-        snakemake -s pipeline.smk --use-singularity --singularity-args "--bind /project_directory:/project_directory"
+        snakemake -s pipeline.smk --use-singularity  --cores 8 --singularity-args "--bind /project_directory:/project_directory"
         ```
 
    * **Command Parameters**
