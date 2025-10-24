@@ -89,16 +89,21 @@ Here stands an throughout workflow of End-seq data analysis.
       ```bash
       mkdir basement_data
       cd basement_data
+      
       # Download Genome FASTA
       wget https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_46/GRCh38.primary_assembly.genome.fa.gz
+      
       # Unzip the files
       gunzip GRCh38.primary_assembly.genome.fa.gz
       gunzip gencode.v46.primary_assembly.annotation.gtf.gz
+      
       # Remove scafford
       awk '/^>/ {p=0} /^>chr[0-9XYM]/ {p=1} p' GRCh38.primary_assembly.genome.fa > GRCh38.primary_assembly.genome.chr.fa
+      
       # Build index
       mkdir hg38_chr_bowtie1_index
       singularity exec --cleanenv EndSeq.sif bowtie-build --threads 8 -f GRCh38.primary_assembly.genome.chr.fa ./hg38_chr_bowtie1_index/hg38_chr
+      
       # Remove unnecessary files
       rm GRCh38.primary_assembly.genome.chr.fa
       rm GRCh38.primary_assembly.genome.fa
@@ -158,7 +163,7 @@ Here stands an throughout workflow of End-seq data analysis.
       * **Step 2: run snakemake**
 
         ```bash
-        snakemake -s pipeline.smk --use-singularity  --cores 8 --singularity-args "--bind /project_directory:/project_directory"
+        snakemake -s EndSeq.smk --use-singularity  --cores 8 --singularity-args "--bind /project_directory:/project_directory"
         ```
 
    * **Command Parameters**
